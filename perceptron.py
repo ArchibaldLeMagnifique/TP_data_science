@@ -31,18 +31,22 @@ def perceptron (X, Y, eta, T):
     w = np.zeros(nbElem)
     
     while (t<T):
-        i = randint(0, len(X))  
+        i = randint(0, len(X)-1)  
         
         prodScal = 0
         for j in range(nbElem):
-            print(j,w[j]*X[i][j])
-            prodScal = prodScal + w[j]*X[i][j]
+            print("i : {}".format(i))
+            print ("j : {}".format(j))
+            print ("w[j]*X[i][j] : {}".format(w[j]*float(X[i][j])))
+            prodScal = prodScal + w[j]*float(X[i][j])
 
+        print("Produit scalaire : {}".format(prodScal))
         if (Y[i] * prodScal <= 0):
             w[0] = w[0] + eta * Y[i]
             for j in range(nbElem-1):
-                w[j+1] = w[j+1] + eta * Y[i] * X[i][j]
+                w[j+1] = w[j] + eta * Y[i] * float(X[i][j])
         t = t+1
+    return(w)
 
 
 eta = 0.2
@@ -50,4 +54,4 @@ T = 100
 
 (X,Y) = readData('iris.txt', 100, 'Iris-setosa')
 
-perceptron(X, Y, eta, T)
+moulis = perceptron(X, Y, eta, T)
