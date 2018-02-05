@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import datas
+import datas as datas
 import numpy as np
 from random import randint
 
@@ -9,7 +9,6 @@ class Adaline:
     def __init__(self):
         self.etas = []
         self.T = 0
-        np.seterr(all='ignore')
     
     def __adaline (self, base, eta):
         t=0
@@ -57,7 +56,7 @@ class Adaline:
                 meilleurEta = e
         return meilleurEta
     
-    def run(self, t, T, etas):
+    def run(self, t, T, etas, donnes):
         self.etas = etas
         self.t = t
         self.T = T
@@ -65,7 +64,14 @@ class Adaline:
         erreur = 0
 
         for i in range(t):
-            base = datas.getDataIonosphere()
+            if (donnes == 'ionosphere'):    
+                base = datas.getDataIonosphere()
+            elif (donnes == 'iris'):
+                base = datas.getDataIris()
+            elif (donnes == 'spam'):
+                base = datas.getDataSpambase()
+            else:
+                break
             (baseT, baseA) = datas.splitBase(base, 1, 4)
             
             e = self.__choixEta(baseA)

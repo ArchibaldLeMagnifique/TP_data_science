@@ -57,7 +57,7 @@ class Perceptron:
                 meilleurEta = e
         return meilleurEta
     
-    def run(self, t, T, etas):
+    def run(self, t, T, etas, donnes):
         self.etas = etas
         self.t = t
         self.T = T
@@ -65,7 +65,15 @@ class Perceptron:
         erreur = 0
 
         for i in range(t):
-            base = datas.getDataIonosphere()
+            if (donnes == 'ionosphere'):    
+                base = datas.getDataIonosphere()
+            elif (donnes == 'iris'):
+                base = datas.getDataIris()
+            elif (donnes == 'spam'):
+                base = datas.getDataSpambase()
+            else:
+                break
+            
             (baseT, baseA) = datas.splitBase(base, 1, 4)
             
             e = self.__choixEta(baseA)
