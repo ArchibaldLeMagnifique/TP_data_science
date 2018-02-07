@@ -17,12 +17,13 @@ class Adaline:
         w = np.zeros(nbElem)
         while (t<self.T):
             i = randint(0, len(base)-1)
-            prodScal = w0 + np.dot(w, base[i][:-1])
+            prodScal = np.dot(w, base[i][:-1])
             
-            w0 = w0 + eta * (base[i][-1] - prodScal + w0)
+            w0 = w0 + eta * (base[i][-1] - prodScal - w0)
             for j in range(nbElem):
-                w[j] = w[j] + eta * (base[i][-1] - prodScal + w0) * base[i][j]
+                w[j] = w[j] + eta * (base[i][-1] - prodScal - w0) * base[i][j]
             t = t+1
+
         return (w0, w)
     
     def __testPoids(self, base, w0, w):
@@ -39,11 +40,11 @@ class Adaline:
     # on divise base A et on fait une cross validation
     def __erreurMoyenne(self, eta, baseA):
         erreur = 0
-        for k in range(5):
+        for k in range(1):
             (baseEntrainement, baseValidation) = datas.splitBase(baseA, k+1, 5)
             (w0 ,w) = self.__adaline(baseEntrainement, eta)
             erreur = erreur + self.__testPoids(baseValidation, w0, w)
-        return (erreur/5)
+        return (erreur/1)
     
 
     def __choixEta(self, baseA):
@@ -51,7 +52,7 @@ class Adaline:
         meilleurEta = 0
         for e in self.etas:
             erreurCur = self.__erreurMoyenne(e, baseA)
-            if (erreurCur > erreur):
+            if (erreurCur >= erreur):
                 erreur = erreurCur
                 meilleurEta = e
         return meilleurEta
@@ -70,6 +71,8 @@ class Adaline:
                 base = datas.getDataIris()
             elif (donnes == 'spam'):
                 base = datas.getDataSpambase()
+            elif (donnes == 'cancer'):
+                base = datas.getDataCancer()
             else:
                 break
             (baseT, baseA) = datas.splitBase(base, 1, 4)

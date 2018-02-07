@@ -5,13 +5,14 @@ from random import shuffle
 def parseAndNormalize (set):
     length = len(set)
     nbParam = len(set[0].strip("\n").split(','))-1
-    
-#    res = [[] for _ in range(len(set))]
-    
+        
     res = []
     
     for i in range(length):
-        res.append(set[i].strip("\n").split(','))
+        brutLine = set[i].strip("\n").split(',')
+        res.append([float(j) for j in brutLine[:-1]])
+        res[i].append(brutLine[-1])
+        
     
     vmin = res[0][:-1]
     vmax = res[0][:-1]
@@ -20,11 +21,11 @@ def parseAndNormalize (set):
         for i in range(length):
                vmin[k] = min(vmin[k], res[i][k])
                vmax[k] = max(vmax[k], res[i][k])
-               
+
     for k in range(nbParam):
         for i in range(length):
-            res[i][k] = res[i][k]
-
+            if (vmax[k != vmin[k]]):
+               res[i][k] = (res[i][k]-vmin[k])/(vmax[k]-vmin[k])
     return res
 
 def getDataIris ():
@@ -65,7 +66,22 @@ def getDataSpambase ():
     for k in range(len(lines)):
         strline = lines[k]
         line = list(map(float, strline[:-1]))
-        if (strline[-1] == "1"):
+        if (strline[-1] == "0"):
+            base.append(line + [1.0])
+        else:
+            base.append(line + [-1.0])
+    shuffle(base)
+    return (base)
+
+def getDataCancer ():
+    file = open("./dataset/cancer.data", "r")
+    lines = parseAndNormalize(file.readlines())
+    base = []
+    
+    for k in range(len(lines)):
+        strline = lines[k]
+        line = list(map(float, strline[:-1]))
+        if (strline[-1] == "2"):
             base.append(line + [1.0])
         else:
             base.append(line + [-1.0])

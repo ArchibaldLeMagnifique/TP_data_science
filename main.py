@@ -7,32 +7,53 @@ Created on Wed Jan 17 09:22:39 2018
 
 import perceptron
 import adaline
+import logistique
+import exp
 
-etas = [0.001, 0.01, 0.1, 1, 10, 100, 1000]
-t = 10  # nb dessais totaux
+etas = [0.001, 0.01, 0.1, 1, 10]
+t = 20  # nb dessais totaux
 
 
-print ('Base Iris avec T=5')
-T = 2 # nb dessais de lalgorithme dapprentissage
-base = 'iris' # donnes a utiliser
+print ('Base Iris :')
+T = 200 # nb dessais de lalgorithme dapprentissage
+base = 'iris'
 
 perceptron.Perceptron().run(t, T, etas, base)
 adaline.Adaline().run(t, T, etas, base)
+logistique.Logistique().run(t, T, etas, base)
+exp.Exponentiel().run(t, T, etas, base)
 
-#
 
-print ('\nBase Ionosphere avec T=20')
-T = 10
+
+print ('\nBase Ionosphere :')
+T = 200
 base = 'ionosphere'
 
 perceptron.Perceptron().run(t, T, etas, base)
 adaline.Adaline().run(t, T, etas, base)
+logistique.Logistique().run(t, T, etas, base)
+exp.Exponentiel().run(t, T, etas, base)
 
-#
 
-print ('\nBase Spam avec T=100')
-T = 100
+
+print ('\nBase Cancer :')
+T = 200
+base = 'cancer'
+
+perceptron.Perceptron().run(t, T, etas, base)
+adaline.Adaline().run(t, T, etas, base)
+logistique.Logistique().run(t, T, etas, base)
+exp.Exponentiel().run(t, T, etas, base)
+
+
+
+print ('\nBase Spam :')
+T = 200
 base = 'spam'
 
 perceptron.Perceptron().run(t, T, etas, base)
 adaline.Adaline().run(t, T, etas, base)
+logistique.Logistique().run(t, T, etas, base)
+exp.Exponentiel().run(t, T, etas, base)
+
+del base
